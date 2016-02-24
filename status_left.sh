@@ -25,7 +25,7 @@ bn=$(cat $BAT_NOW)
 BAT_PERCENT=$(( 100 * $bn / $bf ))
 BAT_CHARGE=""
 if [ "Charging" = "$BAT_STAT" ]; then
-	BAT_CHARGE="♥ "
+	BAT_CHARGE="⚡ "
 fi
 
 BATTERY_COLOR="colour9"
