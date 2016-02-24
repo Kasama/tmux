@@ -1,0 +1,51 @@
+#!/bin/bash
+
+__get_bat_text() {
+	BATPATH=/sys/class/power_supply/BAT0
+	if [ ! -d $BATPATH ]; then
+		BATPATH=/sys/class/power_supply/BAT1
+	fi
+
+	BAT_STAT=$(cat $BATPATH/status)
+
+	BAT_FULL=$BATPATH/charge_full
+	if [ ! -r $BAT_FULL ]; then
+		BAT_FULL=$BATPATH/energy_full
+	fi
+
+	BAT_NOW=$BATPATH/charge_now
+	if [ ! -r $BAT_NOW ]; then
+		BAT_NOW=$BATPATH/energy_now
+	fi
+
+	bf=$(cat $BAT_FULL)
+	bn=$(cat $BAT_NOW)
+	BAT_PERCENT=$(( 100 * $bn / $bf ))
+	BAT_CHARGE=""
+	if [ "Charging" = "$BAT_STAT" ]; then
+		BAT_CHARGE="♥ "
+	fi
+
+	BATTERY_TEXT="$BAT_CHARGE$BAT_PERCENT%"
+	
+	if [ "$BAT_PERCENT" -gt "60" ]; then
+		BATTERY_COLOR="colour2"
+		BATTERY_FOREGROUND="default"
+	elif [ "$BAT_PERCENT" -gt "20" ]; then
+		BATTERY_COLOR="colour11"
+		BATTERY_FOREGROUND="colour0"
+	else
+		BATTERY_COLOR="colour9"
+		BATTERY_FOREGROUND="default"
+	fi
+	
+}
+
+__get_hostname() {
+	HOST_TEXT=$(cat /etc/hostname)
+}
+
+__get_hostname
+__get_bat_text
+
+echo "#[fg=colour255, bg=colour0] $HOST_TEXT #[default]#[fg=colour0, bg=$BATTERY_COLOR]#[default]#[fg=$BATTERY_FOREGROUND, bg=$BATTERY_COLOR] $BATTERY_TEXT #[default]#[fg=$BATTERY_COLOR, bg=default]#[bg=colour235]"
