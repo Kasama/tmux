@@ -30,8 +30,11 @@ fi
 
 BATTERY_COLOR="colour9"
 BATTERY_FOREGROUND="default"
-if [ "$BAT_PERCENT" -gt "60" ]; then
+if [ "$BAT_PERCENT" -gt "95" ]; then
 	BATTERY_COLOR="colour2"
+	BATTERY_FOREGROUND="default"
+elif [ "$BAT_PERCENT" -gt "60" ]; then
+	BATTERY_COLOR="colour24"
 	BATTERY_FOREGROUND="default"
 elif [ "$BAT_PERCENT" -gt "20" ]; then
 	BATTERY_COLOR="colour11"
