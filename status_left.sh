@@ -52,7 +52,9 @@ if [ "false" = "$BATTERY_PRESENT" ]; then
 	BATTERY_COLOR="colour235"
 fi
 
-HOST_TEXT=$(cat /etc/hostname)
+# HOST_TEXT=$(cat /etc/hostname)
+
+CURRENT_SESSION=$(tmux display-message -p '#S')
 
 
-echo "#[fg=colour255, bg=colour0] $HOST_TEXT #[fg=colour0, bg=$BATTERY_COLOR]#[default]$BATTERY_TEXT#[bg=colour235]"
+echo "#[fg=colour255, bg=colour0] $CURRENT_SESSION #[fg=colour0, bg=$BATTERY_COLOR]#[default]$BATTERY_TEXT#[bg=colour235]"
