@@ -22,10 +22,10 @@ fi
 
 if [ "true" = "$MACOS" ]; then
   BAT_PERCENT=$(pmset -g batt | grep -oE '\d+%' --color=never | grep -oE '\d+' --color=never)
-  BAT_STAT=$(pmset -g batt | grep -o ' charging')
+  BAT_STAT=$(pmset -g batt | grep -oE ' charging')
   BAT_CHARGE=""
-  if [ "charging" = "$BAT_STAT" ]; then
-    BAT_CHARGE="! "
+  if [ -n "$BAT_STAT" ]; then
+    BAT_CHARGE="ϟ "
   fi
 else
   BAT_STAT=$(cat $BATPATH/status)
